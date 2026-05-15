@@ -24,13 +24,6 @@ class _SplashPageState extends State<SplashPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Text(
-          "This is Splash Screen",
-          style: TextStyle(fontSize: 25, fontWeight: .bold, color: Colors.redAccent),
-        ),
-      ),
-    );
+    return Scaffold(body: Center(child: Image.asset("assets/splash_image.png")));
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'features/dashboard/presentation/dashboard/bloc/dashboard_bloc.dart';
 import 'features/auth/presentation/register/bloc/register_bloc.dart';
 import 'features/auth/presentation/login/bloc/login_bloc.dart';
 import 'features/splash/presentation/splash/bloc/splash_bloc.dart';
@@ -14,6 +15,8 @@ void main() async {
   runApp(
       MultiBlocProvider(
         providers: [
+        BlocProvider<DashboardBloc>(create: (context) => di.sl<DashboardBloc>(),),
+
         BlocProvider<RegisterBloc>(create: (context) => di.sl<RegisterBloc>(),),
 
         BlocProvider<LoginBloc>(create: (context) => di.sl<LoginBloc>(),),
@@ -33,7 +36,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Ecommerce App',
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.light,

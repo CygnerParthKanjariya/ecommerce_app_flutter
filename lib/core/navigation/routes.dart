@@ -1,4 +1,5 @@
 enum Routes {
+  dashboard("/dashboard"),
   register("/register"),
   login("/login"),
   splash("/");

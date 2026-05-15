@@ -230,7 +230,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
                             child: ElevatedButton(
                               onPressed: () {
                                 if (_formKey.currentState!.validate()) {
-                                  // context.pushAndRemoveUntil(Routes.);
+                                  context.pushAndRemoveUntil(Routes.dashboard);
                                 }
                               },
                               style: ElevatedButton.styleFrom(

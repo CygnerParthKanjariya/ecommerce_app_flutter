@@ -1,6 +1,9 @@
+import 'package:ecommerce_app/core/navigation/goto.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../widget/input_field.dart';
+import '../bloc/register_bloc.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -9,16 +12,14 @@ class RegisterPage extends StatefulWidget {
   State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _RegisterPageState extends State<RegisterPage>
-    with SingleTickerProviderStateMixin {
+class _RegisterPageState extends State<RegisterPage> with SingleTickerProviderStateMixin {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController =
-  TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
 
   bool obscurePassword = true;
   bool obscureConfirmPassword = true;
@@ -31,30 +32,17 @@ class _RegisterPageState extends State<RegisterPage>
   void initState() {
     super.initState();
 
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 1200),
-    );
+    _animationController = AnimationController(vsync: this, duration: const Duration(milliseconds: 1200));
 
     fadeAnimation = Tween<double>(
       begin: 0,
       end: 1,
-    ).animate(
-      CurvedAnimation(
-        parent: _animationController,
-        curve: Curves.easeIn,
-      ),
-    );
+    ).animate(CurvedAnimation(parent: _animationController, curve: Curves.easeIn));
 
     slideAnimation = Tween<Offset>(
       begin: const Offset(0, 0.15),
       end: Offset.zero,
-    ).animate(
-      CurvedAnimation(
-        parent: _animationController,
-        curve: Curves.easeOutBack,
-      ),
-    );
+    ).animate(CurvedAnimation(parent: _animationController, curve: Curves.easeOutBack));
 
     _animationController.forward();
   }
@@ -76,11 +64,7 @@ class _RegisterPageState extends State<RegisterPage>
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [
-              Color(0xffEEF2FF),
-              Color(0xffFDF2F8),
-              Color(0xffF5F7FB),
-            ],
+            colors: [Color(0xffEEF2FF), Color(0xffFDF2F8), Color(0xffF5F7FB)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -94,10 +78,7 @@ class _RegisterPageState extends State<RegisterPage>
               child: Container(
                 height: 220,
                 width: 220,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.purple.withOpacity(0.12),
-                ),
+                decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.purple.withOpacity(0.12)),
               ),
             ),
 
@@ -108,19 +89,13 @@ class _RegisterPageState extends State<RegisterPage>
               child: Container(
                 height: 250,
                 width: 250,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.indigo.withOpacity(0.10),
-                ),
+                decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.indigo.withOpacity(0.10)),
               ),
             ),
 
             SafeArea(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 24,
-                  vertical: 20,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
                 child: FadeTransition(
                   opacity: fadeAnimation,
                   child: SlideTransition(
@@ -135,7 +110,7 @@ class _RegisterPageState extends State<RegisterPage>
                           /// Back Button
                           IconButton(
                             onPressed: () {
-                              Navigator.pop(context);
+                              context.pop();
                             },
                             icon: const Icon(Icons.arrow_back_ios_new_rounded),
                           ),
@@ -149,20 +124,14 @@ class _RegisterPageState extends State<RegisterPage>
                               duration: const Duration(milliseconds: 900),
                               curve: Curves.elasticOut,
                               builder: (context, value, child) {
-                                return Transform.scale(
-                                  scale: value,
-                                  child: child,
-                                );
+                                return Transform.scale(scale: value, child: child);
                               },
                               child: Container(
                                 height: 95,
                                 width: 95,
                                 decoration: BoxDecoration(
                                   gradient: const LinearGradient(
-                                    colors: [
-                                      Color(0xff6366F1),
-                                      Color(0xff8B5CF6),
-                                    ],
+                                    colors: [Color(0xff6366F1), Color(0xff8B5CF6)],
                                   ),
                                   borderRadius: BorderRadius.circular(28),
                                   boxShadow: [
@@ -186,12 +155,8 @@ class _RegisterPageState extends State<RegisterPage>
 
                           /// Title
                           ShaderMask(
-                            shaderCallback:
-                                (bounds) => const LinearGradient(
-                              colors: [
-                                Color(0xff4F46E5),
-                                Color(0xff9333EA),
-                              ],
+                            shaderCallback: (bounds) => const LinearGradient(
+                              colors: [Color(0xff4F46E5), Color(0xff9333EA)],
                             ).createShader(bounds),
                             child: const Text(
                               "Create Account",
@@ -207,11 +172,7 @@ class _RegisterPageState extends State<RegisterPage>
 
                           Text(
                             "Register now and enjoy a shopping experience.",
-                            style: TextStyle(
-                              fontSize: 15,
-                              color: Colors.grey.shade700,
-                              height: 1.5,
-                            ),
+                            style: TextStyle(fontSize: 15, color: Colors.grey.shade700, height: 1.5),
                           ),
 
                           const SizedBox(height: 35),
@@ -244,9 +205,7 @@ class _RegisterPageState extends State<RegisterPage>
                                 return "Email is required";
                               }
 
-                              final emailRegex = RegExp(
-                                r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
-                              );
+                              final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
 
                               if (!emailRegex.hasMatch(value)) {
                                 return "Enter valid email";
@@ -294,9 +253,7 @@ class _RegisterPageState extends State<RegisterPage>
                                 });
                               },
                               icon: Icon(
-                                obscurePassword
-                                    ? Icons.visibility_off_outlined
-                                    : Icons.visibility_outlined,
+                                obscurePassword ? Icons.visibility_off_outlined : Icons.visibility_outlined,
                               ),
                             ),
                             validator: (value) {
@@ -324,8 +281,7 @@ class _RegisterPageState extends State<RegisterPage>
                             suffixIcon: IconButton(
                               onPressed: () {
                                 setState(() {
-                                  obscureConfirmPassword =
-                                  !obscureConfirmPassword;
+                                  obscureConfirmPassword = !obscureConfirmPassword;
                                 });
                               },
                               icon: Icon(
@@ -356,24 +312,19 @@ class _RegisterPageState extends State<RegisterPage>
                             child: ElevatedButton(
                               onPressed: () {
                                 if (_formKey.currentState!.validate()) {
-                                  /// Register Logic
+                                  context.read<RegisterBloc>().add(DoRegisterEvent());
                                 }
                               },
                               style: ElevatedButton.styleFrom(
                                 padding: EdgeInsets.zero,
                                 elevation: 0,
                                 backgroundColor: Colors.transparent,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(18),
-                                ),
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
                               ),
                               child: Ink(
                                 decoration: BoxDecoration(
                                   gradient: const LinearGradient(
-                                    colors: [
-                                      Color(0xff4F46E5),
-                                      Color(0xff9333EA),
-                                    ],
+                                    colors: [Color(0xff4F46E5), Color(0xff9333EA)],
                                   ),
                                   borderRadius: BorderRadius.circular(18),
                                 ),
@@ -399,22 +350,14 @@ class _RegisterPageState extends State<RegisterPage>
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(
-                                "Already have an account?",
-                                style: TextStyle(
-                                  color: Colors.grey.shade700,
-                                ),
-                              ),
+                              Text("Already have an account?", style: TextStyle(color: Colors.grey.shade700)),
                               TextButton(
                                 onPressed: () {
                                   Navigator.pop(context);
                                 },
                                 child: const Text(
                                   "Login",
-                                  style: TextStyle(
-                                    color: Color(0xff6D28D9),
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                  style: TextStyle(color: Color(0xff6D28D9), fontWeight: FontWeight.bold),
                                 ),
                               ),
                             ],
@@ -448,11 +391,7 @@ class _RegisterPageState extends State<RegisterPage>
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.03),
-            blurRadius: 10,
-            offset: const Offset(0, 5),
-          ),
+          BoxShadow(color: Colors.black.withOpacity(0.03), blurRadius: 10, offset: const Offset(0, 5)),
         ],
       ),
       child: TextFormField(
@@ -468,24 +407,15 @@ class _RegisterPageState extends State<RegisterPage>
           suffixIcon: suffixIcon,
           filled: true,
           fillColor: Colors.white.withOpacity(0.95),
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 18,
-            vertical: 18,
-          ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20),
-            borderSide: BorderSide.none,
-          ),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(20), borderSide: BorderSide.none),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(20),
             borderSide: BorderSide(color: Colors.grey.shade200),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(20),
-            borderSide: const BorderSide(
-              color: Color(0xff7C3AED),
-              width: 1.5,
-            ),
+            borderSide: const BorderSide(color: Color(0xff7C3AED), width: 1.5),
           ),
         ),
       ),
