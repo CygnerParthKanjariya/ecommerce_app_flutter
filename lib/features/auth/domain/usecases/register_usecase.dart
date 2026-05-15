@@ -1,28 +1,28 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-
 import '../../../../core/error/failures.dart';
 import '../../../../core/usecases/usecase.dart';
-import '../entities/register.dart';
+import '../entities/user.dart';
 import '../repositories/auth_repository.dart';
 
-class RegisterUseCase implements UseCase<Register, Params> {
+class RegisterUseCase implements UseCase<User, RegisterParams> {
   final AuthRepository repository;
 
-   const RegisterUseCase(this.repository);
+  RegisterUseCase(this.repository);
 
   @override
-  Future<Either<Failure, Register>> call(Params params) async {
-    // TODO: implement call
-     throw UnimplementedError();
+  Future<Either<Failure, User>> call(RegisterParams params) async {
+    return await repository.register(params.name, params.email, params.password);
   }
 }
 
-class Params extends Equatable {
-  final String id;
+class RegisterParams extends Equatable {
+  final String name;
+  final String email;
+  final String password;
 
-  const Params({required this.id});
+  const RegisterParams({required this.name, required this.email, required this.password});
 
   @override
-  List<Object> get props => [id];
+  List<Object> get props => [name, email, password];
 }

@@ -1,16 +1,30 @@
-
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../../core/error/failures.dart';
 import 'package:equatable/equatable.dart';
-import '../../../domain/entities/login.dart';
 import '../../../domain/usecases/login_usecase.dart';
-import '../../../../../core/usecases/usecase.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-      final LoginUseCase usecase;
+  final LoginUseCase loginUseCase;
 
-      LoginBloc({required this.usecase}) : super(LoginInitial()){}
+  LoginBloc({required this.loginUseCase}) : super(LoginInitial()) {
+    on<LoginButtonPressed>(_onLoginButtonPressed);
+  }
+
+  Future<void> _onLoginButtonPressed(
+    LoginButtonPressed event,
+    Emitter<LoginState> emit,
+  ) async {
+    emit(LoginLoading());
+
+    final failureOrUser = await loginUseCase(
+      LoginParams(email: event.email, password: event.password),
+    );
+
+    failureOrUser.fold((failure) {
+      String message = 'Invalid Credentials';
+      emit(LoginFailure(message: message));
+    }, (user) => emit(LoginSuccess()));
+  }
 }

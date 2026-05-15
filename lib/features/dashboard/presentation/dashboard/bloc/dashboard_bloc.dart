@@ -1,16 +1,13 @@
-
+import '../../../domain/usecases/dashboard_usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/error/failures.dart';
 import 'package:equatable/equatable.dart';
-import '../../../domain/entities/dashboard.dart';
-import '../../../domain/usecases/dashboard_usecase.dart';
-import '../../../../../core/usecases/usecase.dart';
 
 part 'dashboard_event.dart';
 part 'dashboard_state.dart';
 
 class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
-      final DashboardUseCase usecase;
+  final DashboardUseCase usecase;
 
-      DashboardBloc({required this.usecase}) : super(DashboardInitial()){}
+  DashboardBloc({required this.usecase}) : super(DashboardInitial()) {}
 }

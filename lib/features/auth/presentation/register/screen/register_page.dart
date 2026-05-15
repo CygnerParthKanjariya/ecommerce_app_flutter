@@ -61,8 +61,22 @@ class _RegisterPageState extends State<RegisterPage> with SingleTickerProviderSt
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
+      body: BlocConsumer<RegisterBloc, RegisterState>(
+        listener: (context, state) {
+          if (state is RegisterSuccess) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Registration successful. Please login.'), backgroundColor: Colors.green),
+            );
+            context.pop();
+          } else if (state is RegisterFailure) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(state.message), backgroundColor: Colors.red),
+            );
+          }
+        },
+        builder: (context, state) {
+          return Container(
+            decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [Color(0xffEEF2FF), Color(0xffFDF2F8), Color(0xffF5F7FB)],
             begin: Alignment.topLeft,
@@ -310,9 +324,15 @@ class _RegisterPageState extends State<RegisterPage> with SingleTickerProviderSt
                             width: double.infinity,
                             height: 58,
                             child: ElevatedButton(
-                              onPressed: () {
+                              onPressed: state is RegisterLoading ? null : () {
                                 if (_formKey.currentState!.validate()) {
-                                  context.read<RegisterBloc>().add(DoRegisterEvent());
+                                  context.read<RegisterBloc>().add(
+                                    RegisterButtonPressed(
+                                      name: nameController.text,
+                                      email: emailController.text,
+                                      password: passwordController.text,
+                                    ),
+                                  );
                                 }
                               },
                               style: ElevatedButton.styleFrom(
@@ -330,15 +350,21 @@ class _RegisterPageState extends State<RegisterPage> with SingleTickerProviderSt
                                 ),
                                 child: Container(
                                   alignment: Alignment.center,
-                                  child: const Text(
-                                    "REGISTER",
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      letterSpacing: 1,
-                                      color: Colors.white,
-                                    ),
-                                  ),
+                                  child: state is RegisterLoading
+                                      ? const SizedBox(
+                                          height: 24,
+                                          width: 24,
+                                          child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
+                                        )
+                                      : const Text(
+                                          "REGISTER",
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                            letterSpacing: 1,
+                                            color: Colors.white,
+                                          ),
+                                        ),
                                 ),
                               ),
                             ),
@@ -373,6 +399,8 @@ class _RegisterPageState extends State<RegisterPage> with SingleTickerProviderSt
             ),
           ],
         ),
+      );
+    },
       ),
     );
   }

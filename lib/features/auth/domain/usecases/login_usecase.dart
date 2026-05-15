@@ -1,28 +1,27 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-
 import '../../../../core/error/failures.dart';
 import '../../../../core/usecases/usecase.dart';
-import '../entities/login.dart';
+import '../entities/user.dart';
 import '../repositories/auth_repository.dart';
 
-class LoginUseCase implements UseCase<Login, Params> {
+class LoginUseCase implements UseCase<User, LoginParams> {
   final AuthRepository repository;
 
-   const LoginUseCase(this.repository);
+  LoginUseCase(this.repository);
 
   @override
-  Future<Either<Failure, Login>> call(Params params) async {
-    // TODO: implement call
-     throw UnimplementedError();
+  Future<Either<Failure, User>> call(LoginParams params) async {
+    return await repository.login(params.email, params.password);
   }
 }
 
-class Params extends Equatable {
-  final String id;
+class LoginParams extends Equatable {
+  final String email;
+  final String password;
 
-  const Params({required this.id});
+  const LoginParams({required this.email, required this.password});
 
   @override
-  List<Object> get props => [id];
+  List<Object> get props => [email, password];
 }

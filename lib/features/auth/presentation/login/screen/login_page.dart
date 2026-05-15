@@ -1,5 +1,7 @@
 import 'package:ecommerce_app/features/auth/presentation/widget/input_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../bloc/login_bloc.dart';
 
 import '../../../../../core/navigation/goto.dart';
 import '../../../../../core/navigation/routes.dart';
@@ -53,8 +55,19 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
+      body: BlocConsumer<LoginBloc, LoginState>(
+        listener: (context, state) {
+          if (state is LoginSuccess) {
+            context.pushAndRemoveUntil(Routes.dashboard);
+          } else if (state is LoginFailure) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(state.message), backgroundColor: Colors.red),
+            );
+          }
+        },
+        builder: (context, state) {
+          return Container(
+            decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [Color(0xffEEF2FF), Color(0xffFDF2F8), Color(0xffF5F7FB)],
             begin: Alignment.topLeft,
@@ -228,9 +241,14 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
                             width: double.infinity,
                             height: 58,
                             child: ElevatedButton(
-                              onPressed: () {
+                              onPressed: state is LoginLoading ? null : () {
                                 if (_formKey.currentState!.validate()) {
-                                  context.pushAndRemoveUntil(Routes.dashboard);
+                                  context.read<LoginBloc>().add(
+                                    LoginButtonPressed(
+                                      email: emailController.text,
+                                      password: passwordController.text,
+                                    ),
+                                  );
                                 }
                               },
                               style: ElevatedButton.styleFrom(
@@ -248,15 +266,21 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
                                 ),
                                 child: Container(
                                   alignment: Alignment.center,
-                                  child: const Text(
-                                    "LOGIN",
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      letterSpacing: 1,
-                                      color: Colors.white,
-                                    ),
-                                  ),
+                                  child: state is LoginLoading
+                                      ? const SizedBox(
+                                          height: 24,
+                                          width: 24,
+                                          child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
+                                        )
+                                      : const Text(
+                                          "LOGIN",
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                            letterSpacing: 1,
+                                            color: Colors.white,
+                                          ),
+                                        ),
                                 ),
                               ),
                             ),
@@ -321,6 +345,8 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
             ),
           ],
         ),
+      );
+    },
       ),
     );
   }
