@@ -1,3 +1,4 @@
+import 'package:ecommerce_app/core/storage/session/sesssion.dart';
 import 'package:ecommerce_app/features/auth/presentation/widget/input_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -58,6 +59,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
       body: BlocConsumer<LoginBloc, LoginState>(
         listener: (context, state) {
           if (state is LoginSuccess) {
+            SessionManager.setLoggedIn(true);
             context.pushAndRemoveUntil(Routes.dashboard);
           } else if (state is LoginFailure) {
             ScaffoldMessenger.of(context).showSnackBar(

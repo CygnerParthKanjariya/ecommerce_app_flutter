@@ -31,7 +31,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       (failure) {
         String message = 'Unexpected Error';
         if (failure is AuthFailure) {
-          message = (failure as AuthFailure).message;
+          message = (failure).message;
         }
         emit(RegisterFailure(message: message));
       },

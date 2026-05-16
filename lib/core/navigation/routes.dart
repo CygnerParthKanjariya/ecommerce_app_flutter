@@ -1,4 +1,6 @@
 enum Routes {
+products("/products"),
+
   dashboard("/dashboard"),
   register("/register"),
   login("/login"),

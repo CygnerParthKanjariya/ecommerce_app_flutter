@@ -13,19 +13,19 @@ class DashboardInitial extends DashboardState {}
 class DashboardLoading extends DashboardState {}
 
 class DashboardLoaded extends DashboardState {
+  final List<Category> categories;
 
-
-const DashboardLoaded();
+const DashboardLoaded({required this.categories});
 
 @override
-List<Object> get props => [];
+List<Object> get props => [categories];
 }
 
 class DashboardError extends DashboardState {
-final Failure failure;
+final String message;
 
-const DashboardError({required this.failure});
+const DashboardError({required this.message});
 
 @override
-List<Object> get props => [failure];
+List<Object> get props => [message];
 }

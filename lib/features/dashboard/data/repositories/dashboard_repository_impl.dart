@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:ecommerce_app/features/dashboard/domain/entities/categories.dart';
 import '../../../../core/error/exceptions.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/network/network_info.dart';
@@ -11,5 +12,10 @@ class DashboardRepositoryImpl implements DashboardRepository {
       final NetworkInfo networkInfo;
 
       DashboardRepositoryImpl({required this.remoteDataSource,required this.networkInfo});
+
+  @override
+  Future<Either<Failure, List<Category>>> getCategories(params) async {
+    return await remoteDataSource.getCategories(params);
+  }
 
 }

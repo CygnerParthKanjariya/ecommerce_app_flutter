@@ -7,6 +7,7 @@ import '../core/network/network_info.dart';
 import 'splash_injection.dart';
 import 'auth_injection.dart';
 import 'dashboard_injection.dart';
+import 'products_injection.dart';
 final sl = GetIt.instance;
 
 Future<void> init() async {
@@ -28,6 +29,7 @@ Future<void> initFeatures() async {
     'splash': splashInjection,
   'auth': authInjection,
   'dashboard': dashboardInjection,
+  'products': productsInjection,
 };
 
   // Call each feature's injection method

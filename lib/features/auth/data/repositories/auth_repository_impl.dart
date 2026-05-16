@@ -21,7 +21,7 @@ class AuthRepositoryImpl implements AuthRepository {
     } on ServerException {
       return const Left(AuthFailure('Invalid email or password'));
     } catch (e) {
-      return Left(ServerFailure());
+      return Left(ServerFailure(message: 'Something went wrong'));
     }
   }
 
@@ -34,7 +34,7 @@ class AuthRepositoryImpl implements AuthRepository {
     } on ServerException {
       return const Left(AuthFailure('Email already exists'));
     } catch (e) {
-      return Left(ServerFailure());
+      return Left(ServerFailure(message: 'Something went wrong'));
     }
   }
 

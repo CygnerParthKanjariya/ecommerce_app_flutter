@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'features/products/presentation/products/bloc/products_bloc.dart';
 import 'features/dashboard/presentation/dashboard/bloc/dashboard_bloc.dart';
 import 'features/auth/presentation/register/bloc/register_bloc.dart';
 import 'features/auth/presentation/login/bloc/login_bloc.dart';
@@ -15,6 +16,8 @@ void main() async {
   runApp(
       MultiBlocProvider(
         providers: [
+        BlocProvider<ProductsBloc>(create: (context) => di.sl<ProductsBloc>(),),
+
         BlocProvider<DashboardBloc>(create: (context) => di.sl<DashboardBloc>(),),
 
         BlocProvider<RegisterBloc>(create: (context) => di.sl<RegisterBloc>(),),

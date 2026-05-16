@@ -1,3 +1,4 @@
+import '../../features/products/presentation/products/screen/products_page.dart';
 import '../../features/dashboard/presentation/dashboard/screen/dashboard_page.dart';
 import '../../features/auth/presentation/register/screen/register_page.dart';
 import '../../features/auth/presentation/login/screen/login_page.dart';
@@ -25,6 +26,11 @@ extension RouteView on Routes {
 
         case Routes.dashboard:
             page = const DashboardPage();
+            break;
+        
+
+        case Routes.products:
+            page = const ProductsPage();
             break;
         
 }

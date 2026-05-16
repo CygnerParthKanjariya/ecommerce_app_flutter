@@ -3,7 +3,7 @@ import '../util/constants.dart';
 
 enum Apis implements AppConstants {
 
-  test("test");
+  categories("categories");
 
   @override
   final String value;
@@ -12,11 +12,15 @@ enum Apis implements AppConstants {
 
   const Apis(
     this.value, {
-    this.host = "https://host.com",
-    this.version = "api/v1",
+    this.host = "https://dummyjson.com",
+    this.version = "products",
   });
 }
 
 extension Api on Apis {
   String get url => "$host/$version/$value";
+
+  String productsByCategory(String categoryName) {
+    return "$host/$version/category/$categoryName";
+  }
 }
